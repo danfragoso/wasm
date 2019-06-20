@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+  <h1>Open the console and type run(100).</h1>
+<script>
+  let wasm = {};
+  let js = {};
+  
+  js["prime"] = n => {
+    let i = 1;
+    let p = 2;
+    let primo = 0;
+    let count;
+    let flag;
+
+    while (i <= n) {
+      flag = 1;
+      for (count = 2; count <= p - 1; count++) {
+        if (p % count == 0) {
+          flag = 0;
+          break;
+        }
+      }
+      if (flag == 1) {
+        primo = p;
+        i++;
+      }
+      p++;
+    }
+    return primo;
+  }
+
+  const loadWasm = async module => {
+    const { instance } = await WebAssembly.instantiateStreaming(fetch(module));
+    return instance.exports;
+  }
+
+  const run = async number => {
+    wasm = await loadWasm('prime.wasm');
+
+    console.log(`Calculating the first ${number} primes using wasm.`);
+    console.time('wasm');
+    console.log(`Result: ${wasm.prime(number)}`);
+    console.timeEnd('wasm');
+    console.log("");
+
+    console.log(`Calculating the first ${number} primes using js.`);
+    console.time('js');
+    console.log(`Result: ${js.prime(number)}`);
+    console.timeEnd('js');
+    console.log("");
+  }
+</script>
