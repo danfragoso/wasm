@@ -1,2 +1,3 @@
 # WebAssembly vs JS example
-![wasm_example](https://github.com/danfragoso/wasm/print.png)
+![wasm_example](https://raw.github.com/danfragoso/wasm/master/print.png))
+
